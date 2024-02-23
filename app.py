@@ -15,7 +15,7 @@ CORS(app)
 
 # Configurar la base de datos
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@localhost/biblioteca'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://upmccthrkujatdmu:VBD9SeGJRSOyLYbzlf6J@beebvr4gtvujymlza7qh-mysql.services.clever-cloud.com:3306/beebvr4gtvujymlza7qh'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://upmccthrkujatdmu:VBD9SeGJRSOyLYbzlf6J@beebvr4gtvujymlza7qh-mysql.services.clever-cloud.com:3306/beebvr4gtvujymlza7qh'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
