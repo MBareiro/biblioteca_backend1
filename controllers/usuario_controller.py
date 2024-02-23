@@ -53,9 +53,7 @@ def create_usuario():
     telefono = request.json['telefono']
     role = request.json['role']
     password = generate_random_password()
-    print(password)
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-    print(hashed_password)
     # Convierte la contraseña en una cadena de texto
     """ hashed_password_str = hashed_password.decode('utf-8') """
     

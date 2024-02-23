@@ -10,7 +10,6 @@ subscriptions_schema = SubscriptionSchema(many=True)
 # Endpoint para crear una nueva suscripción
 @app.route('/subscription', methods=['POST'])
 def add_subscription():
-    print("asdasd")
     start_date = request.json['start_date']
     end_date = request.json['end_date']
     id_user = request.json['id_user']
