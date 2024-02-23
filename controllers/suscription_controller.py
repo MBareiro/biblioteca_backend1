@@ -3,6 +3,7 @@ from flask import request, jsonify
 from app import app, db
 from models.beneficiary_model import Beneficiary
 from models.suscription_model import Subscription, SubscriptionSchema
+from datetime import datetime
 
 subscription_schema = SubscriptionSchema()
 subscriptions_schema = SubscriptionSchema(many=True)
@@ -16,8 +17,8 @@ def add_subscription():
     id_user = request.json['id_user']
 
     # Convertir las cadenas de fecha y hora al formato adecuado
-    start_date = datetime.fromisoformat(start_date_str.replace('Z', '+00:00'))
-    end_date = datetime.fromisoformat(end_date_str.replace('Z', '+00:00'))
+    start_date = datetime.strptime(start_date_str.replace('Z', '+00:00'), '%Y-%m-%dT%H:%M:%S.%f%z')
+    end_date = datetime.strptime(end_date_str.replace('Z', '+00:00'), '%Y-%m-%dT%H:%M:%S.%f%z')
 
     # Crear una nueva instancia de Subscription con los datos proporcionados
     new_subscription = Subscription(start_date=start_date, end_date=end_date, id_user=id_user)
