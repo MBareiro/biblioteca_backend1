@@ -72,8 +72,8 @@ def create_loan():
     books_id = request.json['books_id']
 
     # Convert string dates to datetime objects
-    loan_date = datetime.strptime(loan_date_str, "%Y-%m-%dT%H:%M:%S")
-    return_date = datetime.strptime(return_date_str, "%Y-%m-%dT%H:%M:%S")
+    loan_date = datetime.strptime(loan_date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
+    return_date = datetime.strptime(return_date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     # Create new loan
     new_loan = Loan(
@@ -95,6 +95,7 @@ def create_loan():
     db.session.commit()
 
     return loan_schema.jsonify(new_loan)
+
 
 
 # Update a loan by its ID
