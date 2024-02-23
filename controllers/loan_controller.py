@@ -9,7 +9,6 @@ loans_schema = LoanSchema(many=True)
 
 @app.route('/loans', methods=['GET'])
 def get_loans():
-    print("aaaaaaa")
     try:
         all_loans = Loan.query.all()
 
@@ -74,8 +73,8 @@ def create_loan():
 
     # Crear nuevo préstamo
     new_loan = Loan(
-        loan_date=loan_date,
-        return_date=return_date,
+        loan_date=loan_date.end_date.strftime("%Y-%m-%dT%H:%M:%S"),
+        return_date= return_date.end_date.strftime("%Y-%m-%dT%H:%M:%S"),
         returned=returned,
         beneficiaries_id=beneficiaries_id,
         books_id=books_id
