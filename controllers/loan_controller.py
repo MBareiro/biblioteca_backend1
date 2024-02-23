@@ -3,6 +3,7 @@ from app import app, db
 from models.loan_model import Loan, LoanSchema
 from models.beneficiary_model import Beneficiary
 from models.book_model import Book
+from datetime import datetime
 
 loan_schema = LoanSchema()
 loans_schema = LoanSchema(many=True)
@@ -62,31 +63,34 @@ def delete_loan(id):
         return jsonify({'message': 'Loan not found'}), 404
  """
 
-# Create a new loan
 @app.route('/loans', methods=['POST'])
 def create_loan():
-    loan_date = request.json['loan_date']
-    return_date = request.json['return_date']
+    loan_date_str = request.json['loan_date']
+    return_date_str = request.json['return_date']
     returned = request.json['returned']
     beneficiaries_id = request.json['beneficiaries_id']
     books_id = request.json['books_id']
 
-    # Crear nuevo préstamo
+    # Convert string dates to datetime objects
+    loan_date = datetime.strptime(loan_date_str, "%Y-%m-%dT%H:%M:%S")
+    return_date = datetime.strptime(return_date_str, "%Y-%m-%dT%H:%M:%S")
+
+    # Create new loan
     new_loan = Loan(
         loan_date=loan_date.strftime("%Y-%m-%dT%H:%M:%S"),
-        return_date= return_date.strftime("%Y-%m-%dT%H:%M:%S"),
+        return_date=return_date.strftime("%Y-%m-%dT%H:%M:%S"),
         returned=returned,
         beneficiaries_id=beneficiaries_id,
         books_id=books_id
     )
 
-    # Actualizar disponibilidad del libro
+    # Update book availability
     book = Book.query.get(books_id)
     if book:
-        book.available -= 1  # Restarle 1 al campo 'available' del libro
+        book.available -= 1
         db.session.commit()    
 
-    # Guardar el nuevo préstamo
+    # Save the new loan
     db.session.add(new_loan)
     db.session.commit()
 
