@@ -97,11 +97,10 @@ def check_existing_subscription(id_user):
 # Endpoint para verificar la validez de una suscripción por ID de usuario
 @app.route('/subscription/<id_user>/valid', methods=['GET'])
 def check_subscription_validity(id_user):
-    print("asdasd")
     subscription = Subscription.query.filter_by(id_user=id_user).first()
     if subscription:
         # Verificar si la fecha de vencimiento es mayor o igual a la fecha actual
-        current_date = datetime.datetime.now()
+        current_date = datetime.now()
         if subscription.end_date >= current_date:
             return jsonify(True)  # La suscripción está vigente
         else:
