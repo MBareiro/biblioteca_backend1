@@ -10,15 +10,23 @@ subscriptions_schema = SubscriptionSchema(many=True)
 # Endpoint para crear una nueva suscripción
 @app.route('/subscription', methods=['POST'])
 def add_subscription():
-    start_date = request.json['start_date']
-    end_date = request.json['end_date']
+    # Obtener los datos de la solicitud JSON
+    start_date_str = request.json['start_date']
+    end_date_str = request.json['end_date']
     id_user = request.json['id_user']
 
+    # Convertir las cadenas de fecha y hora al formato adecuado
+    start_date = datetime.fromisoformat(start_date_str.replace('Z', '+00:00'))
+    end_date = datetime.fromisoformat(end_date_str.replace('Z', '+00:00'))
+
+    # Crear una nueva instancia de Subscription con los datos proporcionados
     new_subscription = Subscription(start_date=start_date, end_date=end_date, id_user=id_user)
 
+    # Agregar la nueva suscripción a la sesión de la base de datos y confirmar los cambios
     db.session.add(new_subscription)
     db.session.commit()
 
+    # Devolver los datos de la nueva suscripción en formato JSON
     return subscription_schema.jsonify(new_subscription)
 
 # Endpoint para obtener todas las suscripciones con el nombre y apellido del beneficiario
