@@ -108,3 +108,17 @@ def check_subscription_validity(id_user):
             return jsonify(False)  # La suscripción ha vencido
     else:
         return jsonify(False)  # No hay suscripción para el usuario
+
+# Endpoint para eliminar todas las suscripciones
+@app.route('/subscriptions/delete', methods=['DELETE'])
+def delete_all_subscriptions():
+    # Obtener todas las suscripciones de la base de datos
+    subscriptions = Subscription.query.all()
+    
+    # Eliminar cada suscripción de la base de datos
+    for subscription in subscriptions:
+        db.session.delete(subscription)
+    
+    # Confirmar los cambios y devolver una respuesta
+    db.session.commit()
+    return jsonify({'message': 'All subscriptions have been deleted'})
